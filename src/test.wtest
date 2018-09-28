@@ -1,0 +1,21 @@
+import trenes.*
+
+describe "testeo de trenes" {
+
+	var vagon1 = new Vagon(tipoDeVagones = carga)
+	var vagon2 = new Vagon(tipoDeVagones = pasajeros)
+	var vagon3 = new Vagon(tipoDeVagones = pasajeros)
+	var formacion1=new Formacion()
+	
+	test "hay 2 vagones livianos" {
+		carga.cargaMaxima(2400)
+		pasajeros.largoEnMetros(2)
+		pasajeros.anchoUtilEnMetros(2)
+		formacion1.agregarVagones(vagon1)
+		formacion1.agregarVagones(vagon2)
+		formacion1.agregarVagones(vagon3)
+		assert.equals(2,formacion1.vagonLiviano())
+	}
+
+}
+

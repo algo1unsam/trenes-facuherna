@@ -13,8 +13,8 @@ class Formacion {
 	var property locomotoras = []
 	var property vagones = []
 
-	method agregarlocomotoras(locomotor) {
-		vagones.add(locomotor)
+	method agregarlocomotoras(locomotora) {
+		locomotoras.add(locomotora)
 	}
 
 	method agregarVagones(vagon) {
@@ -24,15 +24,31 @@ class Formacion {
 	method vagonLiviano() {
 		return vagones.count{ unVagon => unVagon.pesoMaximo() < 2500 }
 	}
-	method velocidadMaxima(){
-		return locomotoras.min{unaLocomotora=>unaLocomotora.velocidadMaxima()}
+
+	method velocidadMaxima() {
+		return locomotoras.min{ unaLocomotora => unaLocomotora.velocidadMaxima() }.velocidadMaxima()
+	}
+
+	method formacionEficiente() {
+		return locomotoras.all{ unaLocomotora => unaLocomotora.arrastreUtil() >= unaLocomotora.peso() * 5 }
+	}
+
+	method podesMoverte() {
+		return self.sumaDeArrastre() >= self.sumaDePesoMaximoDeVagones()
+	}
+
+	method sumaDeArrastre() {
+		return locomotoras.sum{ unaLocomotora => unaLocomotora.arrastreUtil() }
+	}
+
+	method sumaDePesoMaximoDeVagones() {
+		return vagones.sum{ unVagon => unVagon.pesoMaximo() }
 	}
 
 }
 
-class Locomotor {
+class Locomotora {
 
-	var property cantDeLocomotoras = 1
 	var property peso = 1
 	var property pesoMaximoQueArrastra = 1
 	var property velocidadMaxima = 1
@@ -45,11 +61,10 @@ class Locomotor {
 
 class Vagon {
 
-	var property cantDeVagones = 1
-	var property tipoDeVagones = pasajeros
+	var property tipoDeVagones = null
 
 	method pesoMaximo() {
-		tipoDeVagones.pesoMaximo()
+		return tipoDeVagones.pesoMaximo()
 	}
 
 }
