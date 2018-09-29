@@ -44,6 +44,9 @@ class Formacion {
 	method sumaDePesoMaximoDeVagones() {
 		return vagones.sum{ unVagon => unVagon.pesoMaximo() }
 	}
+	method kilosQueFaltaParaMoverse(){
+		return self.sumaDePesoMaximoDeVagones()-self.sumaDeArrastre()
+	}
 
 }
 
