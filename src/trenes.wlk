@@ -22,7 +22,7 @@ class Deposito {
 	}
 
 	method locomotoraSuelta(formacion, locomotora) {
-		return locomotora.arrastreUtil() >= formacion.sumaDePesoMaximoDeVagones()
+		return locomotora.arrastreUtil() >= formacion.kilosQueFaltaParaMoverse()
 	}
 
 }
