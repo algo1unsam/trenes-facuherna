@@ -10,14 +10,13 @@ class Deposito {
 		return formaciones.map{ vagones => vagones.vagonesPesados() }
 	}
 
-	method formacionCompleja() {
-		return formaciones.size() > 20 or formaciones.sum{ unaFormacion => unaFormacion.sumaTotalDeFormacion() } > 10000
+	method necesitaConductorExperimentado() {
+		return formaciones.any{ unaFormacion => unaFormacion.formacionCompleja() }
 	}
 
-	method formacionMovilisada(formacion,locomotora) {
+	method formacionMovilisada(formacion, locomotora) {
 		if (formacion.podesMoverte()) {
-		}
-		else if (self.locomotoraSuelta(formacion, locomotora)) {
+		} else if (self.locomotoraSuelta(formacion, locomotora)) {
 			formacion.agregarlocomotoras(locomotora)
 		}
 	}
@@ -79,6 +78,10 @@ class Formacion {
 
 	method sumaDelPesoDeLasLocomotoras() {
 		return locomotoras.sum{ unaLocomotora => unaLocomotora.peso() }
+	}
+
+	method formacionCompleja() {
+		return (locomotoras.size() + vagones.size()) > 20 or self.sumaTotalDeFormacion() > 10000
 	}
 
 }

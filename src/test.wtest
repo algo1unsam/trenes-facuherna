@@ -84,8 +84,8 @@ describe "testeo de trenes" {
 	
 	test "se necesesita un conductor experimentado"{
 		carga.cargaMaxima(100)
-		pasajeros.largoEnMetros(5)
-		pasajeros.anchoUtilEnMetros(2)
+		pasajeros.largoEnMetros(20)
+		pasajeros.anchoUtilEnMetros(3)
 		formacion1.agregarVagones(vagon1)
 		formacion1.agregarVagones(vagon2)
 		formacion2.agregarVagones(vagon1)
@@ -96,7 +96,7 @@ describe "testeo de trenes" {
 		formacion2.agregarlocomotoras(locomotora3)
 		deposito1.agregarFormacion(formacion1)
 		deposito1.agregarFormacion(formacion2)
-		assert.that(deposito1.formacionCompleja())
+		assert.that(deposito1.necesitaConductorExperimentado())
 	}
 	
 	test "se necesesita una locomotora con mayor arrastre util"{
