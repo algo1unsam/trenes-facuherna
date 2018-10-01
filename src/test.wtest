@@ -97,7 +97,7 @@ describe "testeo de trenes" {
 		deposito1.agregarFormacion(formacion1)
 		deposito1.agregarFormacion(formacion2)
 		assert.that(deposito1.necesitaConductorExperimentado())
-	}
+	}// el deposito le delega a la formacion y la formacion se los delega a las locomotoras y a los vagones
 	
 	test "se necesesita una locomotora con mayor arrastre util"{
 		carga.cargaMaxima(100)
