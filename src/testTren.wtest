@@ -2,9 +2,9 @@ import trenes.*
 
 describe "testeo de trenes" {
 
-	var vagon1 = new Vagon(tipoDeVagones = carga)
-	var vagon2 = new Vagon(tipoDeVagones = pasajeros)
-	var vagon3 = new Vagon(tipoDeVagones = pasajeros)
+	var vagon1 = new VagonCarga()
+	var vagon2 = new VagonPasajeros()
+	var vagon3 = new VagonPasajeros()
 	var formacion1 = new Formacion()
 	var locomotora1 = new Locomotora(velocidadMaxima = 20,peso=1000)
 	var locomotora2 = new Locomotora(velocidadMaxima = 30,peso=700)
@@ -14,9 +14,11 @@ describe "testeo de trenes" {
 	var deposito1 = new Deposito()
 
 	test "hay 2 vagones livianos" {
-		carga.cargaMaxima(2400)
-		pasajeros.largoEnMetros(2)
-		pasajeros.anchoUtilEnMetros(2)
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(5)
+		vagon2.anchoUtilEnMetros(2)
+		vagon3.largoEnMetros(2)
+		vagon3.anchoUtilEnMetros(2)
 		formacion1.agregarVagones(vagon1)
 		formacion1.agregarVagones(vagon2)
 		formacion1.agregarVagones(vagon3)
@@ -26,7 +28,7 @@ describe "testeo de trenes" {
 	test "la velocidad maxima de una formacion es de 20" {
 		formacion1.agregarlocomotoras(locomotora1)
 		formacion1.agregarlocomotoras(locomotora2)
-		assert.equals(20, formacion1.velocidadMaxima())
+		assert.equals(20, formacion1.velocidadMaximaLocomotora())
 	}
 
 	test "la formacion es eficiente" {
@@ -40,9 +42,9 @@ describe "testeo de trenes" {
 	}
 
 	test "se mueve la formacion" {
-		carga.cargaMaxima(100)
-		pasajeros.largoEnMetros(2)
-		pasajeros.anchoUtilEnMetros(2)
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(2)
+		vagon2.anchoUtilEnMetros(2)
 		locomotora1.peso(100)
 		locomotora1.pesoMaximoQueArrastra(1000)
 		locomotora2.peso(150)
@@ -59,9 +61,9 @@ describe "testeo de trenes" {
 		locomotora1.pesoMaximoQueArrastra(1000)
 		locomotora2.peso(150)
 		locomotora2.pesoMaximoQueArrastra(900)
-		carga.cargaMaxima(100)
-		pasajeros.largoEnMetros(3)
-		pasajeros.anchoUtilEnMetros(2)
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(3)
+		vagon2.anchoUtilEnMetros(2)
 		formacion1.agregarVagones(vagon1)
 		formacion1.agregarVagones(vagon2)
 		formacion1.agregarlocomotoras(locomotora1)
@@ -70,9 +72,11 @@ describe "testeo de trenes" {
 	}
 
 	test "conjunto de vagones pesados" {
-		carga.cargaMaxima(100)
-		pasajeros.largoEnMetros(2)
-		pasajeros.anchoUtilEnMetros(2)
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(2)
+		vagon2.anchoUtilEnMetros(2)
+		vagon3.largoEnMetros(2)
+		vagon3.anchoUtilEnMetros(2)
 		formacion1.agregarVagones(vagon1)
 		formacion1.agregarVagones(vagon2)
 		formacion2.agregarVagones(vagon1)
@@ -83,9 +87,11 @@ describe "testeo de trenes" {
 	}
 	
 	test "se necesesita un conductor experimentado"{
-		carga.cargaMaxima(100)
-		pasajeros.largoEnMetros(20)
-		pasajeros.anchoUtilEnMetros(3)
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(15)
+		vagon2.anchoUtilEnMetros(3)
+		vagon3.largoEnMetros(10)
+		vagon3.anchoUtilEnMetros(3)
 		formacion1.agregarVagones(vagon1)
 		formacion1.agregarVagones(vagon2)
 		formacion2.agregarVagones(vagon1)
@@ -100,9 +106,9 @@ describe "testeo de trenes" {
 	}// el deposito le delega a la formacion y la formacion se los delega a las locomotoras y a los vagones
 	
 	test "se necesesita una locomotora con mayor arrastre util"{
-		carga.cargaMaxima(100)
-		pasajeros.largoEnMetros(3)
-		pasajeros.anchoUtilEnMetros(2)
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(3)
+		vagon2.anchoUtilEnMetros(2)
 		locomotora1.peso(100)
 		locomotora1.pesoMaximoQueArrastra(1000)
 		locomotora2.peso(150)
@@ -118,4 +124,3 @@ describe "testeo de trenes" {
 	}
 
 }
-
