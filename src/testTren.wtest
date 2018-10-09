@@ -3,15 +3,16 @@ import trenes.*
 describe "testeo de trenes" {
 
 	var vagon1 = new VagonCarga()
-	var vagon2 = new VagonPasajeros()
-	var vagon3 = new VagonPasajeros()
-	var formacion1 = new Formacion()
-	var locomotora1 = new Locomotora(velocidadMaxima = 20,peso=1000)
-	var locomotora2 = new Locomotora(velocidadMaxima = 30,peso=700)
-	var locomotora3 = new Locomotora(velocidadMaxima = 30,peso=750,pesoMaximoQueArrastra=5000)
-	var locomotora4 = new Locomotora(velocidadMaxima = 30,peso=900)
-	var formacion2 = new Formacion()
+	var vagon2 = new VagonPasajeros(cantidadDeBanios = 20)
+	var vagon3 = new VagonPasajeros(cantidadDeBanios = 40)
+	var formacion1 = new CortaDistancia()
+	var locomotora1 = new Locomotora(velocidadMaxima = 20, peso = 1000)
+	var locomotora2 = new Locomotora(velocidadMaxima = 30, peso = 700)
+	var locomotora3 = new Locomotora(velocidadMaxima = 30, peso = 750, pesoMaximoQueArrastra = 5000)
+	var locomotora4 = new Locomotora(velocidadMaxima = 30, peso = 900)
+	var formacion2 = new LargaDistancia()
 	var deposito1 = new Deposito()
+
 
 	test "hay 2 vagones livianos" {
 		vagon1.cargaMaxima(100)
@@ -83,10 +84,10 @@ describe "testeo de trenes" {
 		formacion2.agregarVagones(vagon3)
 		deposito1.agregarFormacion(formacion1)
 		deposito1.agregarFormacion(formacion2)
-		assert.equals([vagon2,vagon3],deposito1.conjuntoDeVagonesPesados())
+		assert.equals([ vagon2, vagon3 ], deposito1.conjuntoDeVagonesPesados())
 	}
-	
-	test "se necesesita un conductor experimentado"{
+
+	test "se necesesita un conductor experimentado" {
 		vagon1.cargaMaxima(100)
 		vagon2.largoEnMetros(15)
 		vagon2.anchoUtilEnMetros(3)
@@ -103,9 +104,9 @@ describe "testeo de trenes" {
 		deposito1.agregarFormacion(formacion1)
 		deposito1.agregarFormacion(formacion2)
 		assert.that(deposito1.necesitaConductorExperimentado())
-	}// el deposito le delega a la formacion y la formacion se los delega a las locomotoras y a los vagones
-	
-	test "se necesesita una locomotora con mayor arrastre util"{
+	} // el deposito le delega a la formacion y la formacion se los delega a las locomotoras y a los vagones
+
+	test "se necesesita una locomotora con mayor arrastre util" {
 		vagon1.cargaMaxima(100)
 		vagon2.largoEnMetros(3)
 		vagon2.anchoUtilEnMetros(2)
@@ -118,9 +119,89 @@ describe "testeo de trenes" {
 		formacion1.agregarlocomotoras(locomotora1)
 		formacion1.agregarlocomotoras(locomotora2)
 		deposito1.agregarFormacion(formacion1)
-		deposito1.formacionMovilisada(formacion1,locomotora3)
+		deposito1.formacionMovilisada(formacion1, locomotora3)
 		assert.that(formacion1.podesMoverte())
-		
+	}
+
+	test "formacion bien armada cortaDistancia" {
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(2)
+		vagon2.anchoUtilEnMetros(2)
+		locomotora1.peso(100)
+		locomotora1.pesoMaximoQueArrastra(1000)
+		locomotora2.peso(150)
+		locomotora2.pesoMaximoQueArrastra(900)
+		formacion1.agregarVagones(vagon1)
+		formacion1.agregarVagones(vagon2)
+		formacion1.agregarlocomotoras(locomotora1)
+		formacion1.agregarlocomotoras(locomotora2)
+		assert.that(formacion1.estaBienArmada())
+	}
+
+	test "formacion bien armada largaDistancia" {
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(2)
+		vagon2.anchoUtilEnMetros(2)
+		vagon3.largoEnMetros(2)
+		vagon3.anchoUtilEnMetros(2)
+		locomotora1.peso(100)
+		locomotora1.pesoMaximoQueArrastra(2000)
+		locomotora2.peso(150)
+		locomotora2.pesoMaximoQueArrastra(2000)
+		formacion2.agregarVagones(vagon1)
+		formacion2.agregarVagones(vagon2)
+		formacion2.agregarVagones(vagon3)
+		formacion2.agregarlocomotoras(locomotora1)
+		formacion2.agregarlocomotoras(locomotora2)
+		assert.that(formacion2.estaBienArmada())
+	}
+
+	test "velocidad maxima en cortaDistancia" {
+		locomotora1.peso(100)
+		locomotora1.pesoMaximoQueArrastra(2000)
+		locomotora1.velocidadMaxima(70)
+		locomotora2.peso(150)
+		locomotora2.pesoMaximoQueArrastra(2000)
+		locomotora2.velocidadMaxima(40)
+		formacion1.agregarlocomotoras(locomotora1)
+		formacion1.agregarlocomotoras(locomotora2)
+		assert.equals(40,formacion1.velocidadMaxima())
+	}
+	
+	test "velocidad maxima en largaDistancia" {
+		var chacabuco=new Ciudad(esGrande=true)
+		var carapachay=new Ciudad(esGrande=true)
+		var formacion3=new LargaDistancia(origen=chacabuco,destino=carapachay)
+		locomotora1.peso(100)
+		locomotora1.pesoMaximoQueArrastra(2000)
+		locomotora1.velocidadMaxima(210)
+		locomotora2.peso(150)
+		locomotora2.pesoMaximoQueArrastra(2000)
+		locomotora2.velocidadMaxima(160)
+		formacion3.agregarlocomotoras(locomotora1)
+		formacion3.agregarlocomotoras(locomotora2)
+		assert.equals(160,formacion3.velocidadMaxima())
+	}
+	
+	test "formacion bien armada de largaDistancia  rapido"{
+		vagon1.cargaMaxima(100)
+		vagon2.largoEnMetros(2)
+		vagon2.anchoUtilEnMetros(2)
+		vagon3.largoEnMetros(2)
+		vagon3.anchoUtilEnMetros(2)
+		locomotora1.peso(100)
+		locomotora1.pesoMaximoQueArrastra(2000)
+		locomotora1.velocidadMaxima(300)
+		locomotora2.peso(150)
+		locomotora2.pesoMaximoQueArrastra(2000)
+		locomotora2.velocidadMaxima(350)
+		formacion2.agregarVagones(vagon1)
+		formacion2.agregarVagones(vagon2)
+		formacion2.agregarVagones(vagon3)
+		formacion2.agregarlocomotoras(locomotora1)
+		formacion2.agregarlocomotoras(locomotora2)
+		assert.that(formacion2.estaBienArmadaRapido())
 	}
 
 }
+

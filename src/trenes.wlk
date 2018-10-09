@@ -128,6 +128,8 @@ class VagonCarga {
 
 	var property cargaMaxima = 1
 
+	method cantidadDePasajerosALlevar() = 0
+
 	method pesoMaximo() {
 		return cargaMaxima + 160
 	}
@@ -156,6 +158,16 @@ class LargaDistancia inherits Formacion {
 	method cantidadDeBanios() = vagones.sum{ vagon => vagon.cantidadDeBanios() }
 
 	override method velocidadMaximaLegal() = if (origen.esGrande() and destino.esGrande()) 200 else 150
+
+	method estaBienArmadaRapido() {
+		return self.velocidadMaximaRapido() <= 400 and vagones.all{ unVagon => unVagon.pesoMaximo() < 2500 }
+	}
+
+	method velocidadMaximaRapido() {
+		return self.velocidadMaximaLocomotora().min(self.velocidadMaximaLegalRapido())
+	}
+
+	method velocidadMaximaLegalRapido() = 250
 
 }
 
