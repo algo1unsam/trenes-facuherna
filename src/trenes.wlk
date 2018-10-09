@@ -41,7 +41,11 @@ class Formacion {
 	}
 
 	method vagonLiviano() {
-		return vagones.count{ unVagon => unVagon.pesoMaximo() < 2500 }
+		return vagones.count{ unVagon => self.esLiviano(unVagon) }
+	}
+
+	method esLiviano(unVagon) {
+		return unVagon.pesoMaximo() < 2500
 	}
 
 	method velocidadMaxima() = self.velocidadMaximaLocomotora().min(self.velocidadMaximaLegal())
@@ -159,21 +163,21 @@ class LargaDistancia inherits Formacion {
 
 	override method velocidadMaximaLegal() = if (origen.esGrande() and destino.esGrande()) 200 else 150
 
-	method estaBienArmadaRapido() {
-		return self.velocidadMaximaRapido() <= 400 and vagones.all{ unVagon => unVagon.pesoMaximo() < 2500 }
-	}
-
-	method velocidadMaximaRapido() {
-		return self.velocidadMaximaLocomotora().min(self.velocidadMaximaLegalRapido())
-	}
-
-	method velocidadMaximaLegalRapido() = 250
-
 }
 
 class Ciudad {
 
 	const property esGrande = false
+
+}
+
+class FormacionAltaVelocidad inherits LargaDistancia {
+
+	override method estaBienArmada() {
+		return self.velocidadMaxima() >= 250 and vagones.all{ unVagon => self.esLiviano(unVagon) }
+	}
+
+	override method velocidadMaximaLegal() = 400
 
 }
 

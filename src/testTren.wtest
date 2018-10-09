@@ -11,8 +11,8 @@ describe "testeo de trenes" {
 	var locomotora3 = new Locomotora(velocidadMaxima = 30, peso = 750, pesoMaximoQueArrastra = 5000)
 	var locomotora4 = new Locomotora(velocidadMaxima = 30, peso = 900)
 	var formacion2 = new LargaDistancia()
+	var formacion4 = new FormacionAltaVelocidad()
 	var deposito1 = new Deposito()
-
 
 	test "hay 2 vagones livianos" {
 		vagon1.cargaMaxima(100)
@@ -165,13 +165,13 @@ describe "testeo de trenes" {
 		locomotora2.velocidadMaxima(40)
 		formacion1.agregarlocomotoras(locomotora1)
 		formacion1.agregarlocomotoras(locomotora2)
-		assert.equals(40,formacion1.velocidadMaxima())
+		assert.equals(40, formacion1.velocidadMaxima())
 	}
-	
+
 	test "velocidad maxima en largaDistancia" {
-		var chacabuco=new Ciudad(esGrande=true)
-		var carapachay=new Ciudad(esGrande=true)
-		var formacion3=new LargaDistancia(origen=chacabuco,destino=carapachay)
+		var chacabuco = new Ciudad(esGrande = true)
+		var carapachay = new Ciudad(esGrande = true)
+		var formacion3 = new LargaDistancia(origen = chacabuco, destino = carapachay)
 		locomotora1.peso(100)
 		locomotora1.pesoMaximoQueArrastra(2000)
 		locomotora1.velocidadMaxima(210)
@@ -180,10 +180,10 @@ describe "testeo de trenes" {
 		locomotora2.velocidadMaxima(160)
 		formacion3.agregarlocomotoras(locomotora1)
 		formacion3.agregarlocomotoras(locomotora2)
-		assert.equals(160,formacion3.velocidadMaxima())
+		assert.equals(160, formacion3.velocidadMaxima())
 	}
-	
-	test "formacion bien armada de largaDistancia  rapido"{
+
+	test "formacion bien armada de largaDistancia a alta velocidad" {
 		vagon1.cargaMaxima(100)
 		vagon2.largoEnMetros(2)
 		vagon2.anchoUtilEnMetros(2)
@@ -195,12 +195,12 @@ describe "testeo de trenes" {
 		locomotora2.peso(150)
 		locomotora2.pesoMaximoQueArrastra(2000)
 		locomotora2.velocidadMaxima(350)
-		formacion2.agregarVagones(vagon1)
-		formacion2.agregarVagones(vagon2)
-		formacion2.agregarVagones(vagon3)
-		formacion2.agregarlocomotoras(locomotora1)
-		formacion2.agregarlocomotoras(locomotora2)
-		assert.that(formacion2.estaBienArmadaRapido())
+		formacion4.agregarVagones(vagon1)
+		formacion4.agregarVagones(vagon2)
+		formacion4.agregarVagones(vagon3)
+		formacion4.agregarlocomotoras(locomotora1)
+		formacion4.agregarlocomotoras(locomotora2)
+		assert.that(formacion4.estaBienArmada())
 	}
 
 }
