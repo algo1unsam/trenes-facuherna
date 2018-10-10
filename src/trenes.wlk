@@ -174,7 +174,7 @@ class Ciudad {
 class FormacionAltaVelocidad inherits LargaDistancia {
 
 	override method estaBienArmada() {
-		return self.velocidadMaxima() >= 250 and vagones.all{ unVagon => self.esLiviano(unVagon) }
+		return super()and self.velocidadMaxima() >= 250 and vagones.all{ unVagon => self.esLiviano(unVagon) }
 	}
 
 	override method velocidadMaximaLegal() = 400
